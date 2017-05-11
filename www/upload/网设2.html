@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <script>
+        function ca()
+        {
+            var num1 = parseFloat(document.getElementById("num1").value);
+            var num2 = parseFloat(document.getElementById("num2").value);
+            var sum;
+            
+            var fuhao = parseInt(document.getElementById("jishuan").value);
+            switch(fuhao)
+            {
+                case 1:
+                    sum = num1 + num2;
+                    break;
+                case 2:
+                    sum = num1 - num2;
+                    break;
+                case 3:
+                    sum = num1 * num2;
+                    break;
+                case 4:
+                    sum = num1 / num2;
+                    break;
+                case 5:
+                    sum = Math.pow(num1, num2);
+                    break;
+                case 6:
+                    sum = Math.pow(num1, 1 / num2);
+                    break;
+            }
+            document.getElementById("sum").value = sum;
+            alert("结果是" + sum);
+
+        }
+
+    </script>
+    <h1>计算器</h1>
+    <p>精确到小数点后3位</p>
+    <p>输入：</p>
+    <input type="number" size="10" id="num1"/>
+    <select id="jishuan" style="width:100px">
+        <option value="1">+</option>
+        <option value="2">-</option>
+        <option value="3">*</option>
+        <option value="4">÷</option>
+        <option value="5">^</option>
+        <option value="6">√</option>
+    </select>
+    <input type="number" size="10" id="num2"/>
+    =
+    <input type="number" id="sum"/>
+    <button onclick="ca()">计算</button>
+</body>
+</html>
