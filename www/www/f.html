@@ -1,0 +1,272 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body onload="drawboard()">
+    <h1 id="title">五子棋</h1>
+    <canvas width="1200" id="canvas" 
+             onmousedown="mouse(event)" height="600" 
+            style="background-color:skyblue;">
+
+    </canvas>
+    <img id="black" src="b.png" />
+    <img id="white" src="w.png" />
+    <script>
+        var sum_of_line = 12;//棋盘线总数-1
+        var lineLength = 40;//间隔大小
+        var boardtop = 100;//与上方距离
+        var boardleft = 400;//与左边距离
+        var mymap = new Array(sum_of_line + 1);//储存棋局,0为空，1为白，2为黑
+        var color=1;//棋色
+
+        //绘制棋盘
+        function drawboard()
+        {
+           
+            var canvas = document.getElementById("canvas");
+            var context = canvas.getContext("2d");
+            //棋盘背景
+            context.fillStyle = 'skyblue';
+            context.fillRect(boardleft, boardtop, sum_of_line * lineLength, sum_of_line * lineLength);
+            //标题
+           /* context.font = '45px Arial';
+            context.textAlign = 'start';
+            context.strokeText("五子棋", 110, 110);*/
+            //棋盘     
+            for (var i = 0; i <=sum_of_line; i++)
+            {
+                //纵向
+                context.beginPath();
+                context.moveTo(lineLength * i + boardleft, boardtop);
+                context.lineTo(lineLength * i + boardleft, boardtop + lineLength * sum_of_line);
+                context.closePath();
+                context.stroke();
+                //横向
+                context.beginPath();
+                context.moveTo(boardleft, lineLength * i + boardtop);
+                context.lineTo(boardleft + lineLength * sum_of_line, lineLength * i + boardtop);
+                context.closePath();
+                context.stroke();
+            }
+
+            
+            ini();
+        }
+        //初始化
+        function ini()
+        {
+            for (var i = 0; i < sum_of_line + 1; i++) {
+                mymap[i] = new Array(sum_of_line + 1);
+                for (var j = 0; j < sum_of_line + 1; j++) {
+                    mymap[i][j] = 0;
+                }
+            }
+            //监听
+            while (true)
+            {
+                var myurl = "http://www.cxyzf.cn/apptest.php";
+                var myhttp = new XMLHttpRequest();
+
+                myhttp.open("get", myurl, true);
+                var aa = myhttp.responseText;
+                var id = aa / 10000;
+                var httpcoluom = (aa % 10000) / 100;
+                var httpline = (aa % 100);
+                map[httpcoluom][httpline] = id;
+                drawpiece(httpcoluom, httpline);
+            }
+            
+        }
+
+        function drawpiece(y,x)
+        {
+            var mypiece;
+            if (color == 1)
+            {
+                mypiece = document.getElementById("white");
+            } else
+            {
+                mypiece=document.getElementById("black");
+            }
+            var canvas = document.getElementById("canvas");
+            var context = canvas.getContext("2d");
+            context.drawImage(mypiece, (x - 0.5) * lineLength + boardleft, (y - 0.5) * lineLength + boardtop, lineLength * 0.75, lineLength * 0.75);
+        }
+        //鼠标点击
+        function mouse(e)
+        {
+
+            var px = e.clientX ;
+            var py = e.clientY ;
+            var x = parseInt((px - boardleft) / lineLength);
+            var y = parseInt((py - boardtop) / lineLength) - 2;//为什么会多两格⊙︿⊙？？？
+            if (mymap[y][x] == 0)
+            {
+                mymap[y][x] = color;    //注意xy与yx。。。嗯...强迫症    
+                drawpiece(y, x);
+                //sendmessage(y, x);
+                check(y, x);
+            }        
+            // document.write(x);
+            //document.write(y);
+        }
+
+        //棋局胜利判断
+        function check(x,y)
+        {
+            var hei = 0, bai = 0;
+            for (var i = 0; i <=sum_of_line; i++)            //横向判断
+            {
+                if ((mymap[x][i] == 0)) {
+                    hei = 0;
+                    bai = 0;
+                }
+                if ((mymap[x][i] == 2)) {
+                    hei++;
+                    bai = 0;
+                    if (hei == 5) {
+                        Bwin();
+                    }
+                }
+                if ((mymap[x][i] == 1)) {
+                    bai++;
+                    hei = 0;
+                    if (bai == 5) {
+                        wwin();
+                    }
+                }
+
+            }
+            hei = 0;
+            bai = 0;
+            for (var i = 0; i < sum_of_line; i++)            //纵向判断
+            {
+
+                if ((mymap[i][y] == 0)) {
+                    hei = 0;
+                    bai = 0;
+                }
+                if ((mymap[i][y] == 2)) {
+                    hei++;
+                    bai = 0;
+                    if (hei == 5) {
+                        Bwin();
+                    }
+                }
+                if ((mymap[i][y] == 1)) {
+                    bai++;
+                    hei = 0;
+                    if (bai == 5) {
+                        wwin();
+                    }
+                }
+            }
+
+            //斜向(\向)判断
+            var x1 = x, y1 = y;
+            if (x1 > y1) {
+                x1 = x1 - y1;
+                y1 = 0;
+            } else {
+                y1 = y1 - x1;
+                x1 = 0;
+            }
+            hei = 0;
+            bai = 0;
+            while ((x1 < sum_of_line) && (y1 < sum_of_line)) {
+                if ((mymap[x1][y1] == 0)) {
+                    hei = 0;
+                    bai = 0;
+                }
+                if ((mymap[x1][y1] == 2)) {
+                    hei++;
+                    bai = 0;
+                    if (hei == 5) {
+                        Bwin();
+                    }
+                }
+                if ((mymap[x1][y1] == 1)) {
+                    bai++;
+                    hei = 0;
+                    if (bai == 5) {
+                        wwin();
+                    }
+                }
+                x1++;
+                y1++;
+            }
+
+            //斜向（/向）判断
+            var x2 = x, y2 = y;
+            if ((x2 + y2 + 1) <= sum_of_line) {
+                x2 = 0;
+                y2 = (y + x);
+            } else {
+                y2 = sum_of_line - 1;
+                x2 = (x - (sum_of_line - 1 - y));
+
+            }
+            hei = 0;
+            bai = 0;
+            while ((y2 >= 0) && (x2 < sum_of_line)) {
+                if ((mymap[x2][y2] == 0)) {
+                    hei = 0;
+                    bai = 0;
+                }
+
+                if ((mymap[x2][y2] == 2)) {
+                    hei++;
+                    bai = 0;
+                    if (hei == 5) {
+                        Bwin();
+                    }
+                }
+                if ((mymap[x2][y2] == 1)) {
+                    bai++;
+                    hei = 0;
+                    if (bai == 5) {
+                        wwin();
+                    }
+                }
+                x2++;
+                y2--;
+            }
+
+
+        }
+        //白棋胜
+        function wwin()
+        {
+            document.write("白棋胜");
+        }
+        //黑棋胜
+        function Bwin()
+        {
+            document.write("黑棋胜");
+        }
+
+        //向服务器传输数据
+        function sendmessage(y,x)
+        {
+            do {
+                var zuobiao = color * 10000 + y * 100 + x;
+                var myurl = "http://www.cxyzf.cn/apptest.php?id=" + color + "&zuobiao=" + zuobia;
+                var myhttp = new XMLHttpRequest();
+
+                myhttp.open("get", myurl, false);
+                var aa = myhttp.responseText;
+                var id = aa / 10000;
+                var httpcoluom = (aa % 10000) / 100;
+                var httpline = (aa % 100);
+                map[httpcoluom][httpline] = id;
+
+            }while(id==color);
+            
+
+        }
+    </script>
+</body>
+</html>

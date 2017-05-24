@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="head.jpg" type="image/x-icon" /> 
+    <style type="text/css">
+    div{
+           width:1200px;margin-left:auto;margin-right:auto;margin:0px;padding:0px;
+           border:solid;     
+        }
+        img{width:inherit;height:inherit}
+        #head{height:200px;}
+        #code{background-color:darkgray;height:auto;}
+        ul
+        {
+           margin:0px;
+           padding:0px;
+           list-style:none;
+           overflow:hidden;
+        }
+        #code li{float:left;display:block;width:auto;border-left:dotted;margin:0px;}
+        #code a
+        {
+            text-align:center;
+            text-decoration:none;         
+            color:white;
+            border:groove;
+
+        }
+        #main_body{height:1600px;}
+        #body1{height:inherit;width:300px; float:left;}
+        #body3{height:inherit;width:300px;float:right;}
+        #body2{height:inherit;margin-right:auto;margin-left:auto}
+        a:hover{background-color:deepskyblue;}
+        .body1{width:inherit;height:100px;}
+        .bodyCenter{width:inherit;height:100px;}
+        #mytime{width:inherit;height:inherit;text-align:center;color:darkmagenta;}
+    </style> 
+    <script type="text/javascript">
+        function startTime()
+        {
+        var today=new Date()
+        var h=today.getHours()
+        var m=today.getMinutes()
+        var s=today.getSeconds()
+        m=checkTime(m)
+        s=checkTime(s)
+        document.getElementById('mytime').innerHTML=h+":"+m+":"+s;
+        t=setTimeout('startTime()',10)
+        }
+
+        function checkTime(i)
+        {
+        if (i<10)
+          {i="0" + i}
+          return i
+        }
+    </script>
+    <title>张帆的代码</title>
+</head>
+
+
+<body onload="startTime()">
+
+    <div style="background-image:url(background.jpg);border:groove">
+        <p style="color:blueviolet;text-align:center;font-size:x-large;">我的网页1.0</p>
+        <p style="color:red;text-align:right;">——代码改变世界</p>
+
+    </div>
+    <div id="code" >
+        <ul >
+            <li><a>&nbsp;我的代码</a></li>
+            
+            <li class="code1"><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C语言&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
+            
+            <li class="code1"><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
+            
+            <li class="code1"><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;python&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+            
+            <li class="code1"><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
+            
+            <li class="code1"><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Android&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
+            
+            <li class="code1"><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HTML&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </a></li>
+        </ul>
+    </div>
+    <div id="main_body" style="border:none">
+        <div id="body1" class="body1" style="border:none">
+            <div class="body1" style="background-color:skyblue;border-radius:300px 300px;border:none;border:none">
+                <p style="text-align:center;">北京时间</p>
+               <p id="mytime" style="text-align:center"></p>
+            </div>
+
+            <p style="color:red;background-color:black;text-align:center">致所有被ddl折磨的</p>
+            <p style="color:red;background-color:black;text-align:center">程序猿们</p>
+            <img src="deadline.jpg" style="width:300px;height:200px;" />
+        </div>
+        <div id="body3" style="border:none">
+           
+            <p style="text-align:center;">暂时没想好写什么;先把几个代码模块做好吧……</p>
+
+        </div>
+        <div id="body2" class="bodyCenter" style="border:none">
+            <script>
+                function pp()
+                       {
+                        x=document.getElementById("huifu");
+                        x.innerHTML = document.getElementById("jok").value;
+                         }
+            </script>
+            <p><img src="安卓.jpg" /></p>
+            <p>你好，我是机器人小Z!</p>
+            <p style="text-align:center;">作为来访本网页的福利</p>
+            <p style="text-align:center;">我来给你学dog叫吧</p>
+            <p style="text-align:center;">开心不！</p>
+            <p style="font-size:larger;">请输入你的答复：<textarea id="jok" autofocus;></textarea>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button onclick="pp()">确认</button></p>
+            <p style="font-size:larger;float:left;">我的回复：</p>
+            <p id="huifu" ></p>
+         
+        </div>
+    </div>
+</body>
+</html>
